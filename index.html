@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1a472a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>2026 Super Bowl Squares</title>
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIjIwMjYgU3VwZXIgQm93bCBTcXVhcmVzIiwKICAic2hvcnRfbmFtZSI6ICJTQiBTcXVhcmVzIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMxYTQ3MmEiLAogICJ0aGVtZV9jb2xvciI6ICIjMWE0NzJhIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJyUzRSUzQ3JlY3Qgd2lkdGg9JzEwMCcgaGVpZ2h0PScxMDAnIGZpbGw9JyUyMzFhNDcyYScvJTNFJTNDdGV4dCB4PSc1MCcgeT0nNTUnIGZvbnQtc2l6ZT0nNDAnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZpbGw9JyUyM2ZmZiclM0VTQiUzQy90ZXh0JTNFJTNDL3N2ZyUzRSIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJyUzRSUzQ3JlY3Qgd2lkdGg9JzEwMCcgaGVpZ2h0PScxMDAnIGZpbGw9JyUyMzFhNDcyYScvJTNFJTNDdGV4dCB4PSc1MCcgeT0nNTUnIGZvbnQtc2l6ZT0nNDAnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZpbGw9JyUyM2ZmZiclM0VTQiUzQy90ZXh0JTNFJTNDL3N2ZyUzRSIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0KICBdCn0=">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a472a 0%, #0d2818 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 12px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: clamp(1.3rem, 4vw, 2rem);
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: clamp(0.85rem, 2.5vw, 1rem);
+            opacity: 0.9;
+            margin-bottom: 4px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            padding: 4px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab {
+            flex: 1;
+            min-width: fit-content;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .tab.active {
+            background: rgba(212,175,55,0.3);
+            border-color: #d4af37;
+            color: #d4af37;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .info-card h3 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .info-card .value {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .payout-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+        }
+
+        .payout-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .grid-wrapper {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            overflow-x: auto;
+            margin-bottom: 16px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .grid-scroll {
+            overflow-x: auto;
+        }
+
+        .grid-container {
+            display: inline-grid;
+            grid-template-columns: 90px 60px repeat(5, 1fr);
+            grid-template-rows: 50px 60px repeat(5, 1fr);
+            gap: 3px;
+            min-width: fit-content;
+        }
+
+        .grid-cell {
+            background: rgba(255,255,255,0.95);
+            color: #1a472a;
+            min-height: 100px;
+            min-width: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            border-radius: 8px;
+            font-size: 1rem;
+            padding: 10px;
+            word-wrap: break-word;
+            text-align: center;
+            border: 3px solid rgba(212,175,55,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .grid-cell:hover {
+            transform: scale(1.02);
+            border-color: #d4af37;
+            box-shadow: 0 4px 12px rgba(212,175,55,0.4);
+        }
+
+        .team-header-top {
+            grid-column: 3 / -1;
+            background: linear-gradient(135deg, #002244 0%, #69BE28 100%);
+            color: #fff;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .team-header-left {
+            grid-row: 3 / -1;
+            background: linear-gradient(135deg, #C60C30 0%, #002244 100%);
+            color: #fff;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: bold;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .number-cell-top {
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            color: #1a472a;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            border: none;
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .number-cell-left {
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            color: #1a472a;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .corner-cell {
+            background: linear-gradient(135deg, #1a472a 0%, #0d2818 100%);
+            color: #d4af37;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .instructions {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-top: 16px;
+        }
+
+        .instructions h3 {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .instructions p {
+            line-height: 1.6;
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .example {
+            background: rgba(212,175,55,0.1);
+            border-left: 3px solid #d4af37;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-cell {
+                min-height: 85px;
+                min-width: 85px;
+                font-size: 0.9rem;
+                padding: 8px;
+            }
+
+            .number-cell-top, .number-cell-left {
+                font-size: 1rem;
+            }
+
+            .team-header-left {
+                font-size: 0.8rem;
+                min-width: 75px;
+            }
+
+            .team-header-top {
+                font-size: 1rem;
+            }
+
+            .grid-container {
+                grid-template-columns: 75px 50px repeat(5, 1fr);
+                grid-template-rows: 45px 50px repeat(5, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .grid-cell {
+                min-height: 70px;
+                min-width: 70px;
+                font-size: 0.75rem;
+                padding: 6px;
+            }
+
+            .number-cell-top, .number-cell-left {
+                font-size: 0.85rem;
+            }
+
+            .team-header-left {
+                font-size: 0.7rem;
+                min-width: 65px;
+            }
+
+            .team-header-top {
+                font-size: 0.85rem;
+            }
+
+            .grid-container {
+                grid-template-columns: 65px 45px repeat(5, 1fr);
+                grid-template-rows: 40px 45px repeat(5, 1fr);
+                gap: 2px;
+            }
+
+            .tab {
+                font-size: 0.8rem;
+                padding: 10px 12px;
+            }
+        }
+
+        .install-prompt {
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            color: #1a472a;
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .install-prompt button {
+            background: #1a472a;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="installPrompt" class="install-prompt">
+            <div>📱 Install this app on your home screen for quick access!</div>
+            <button onclick="installApp()">Add to Home Screen</button>
+        </div>
+
+        <header>
+            <h1>🏈 2026 Super Bowl Squares</h1>
+            <div class="subtitle">Seattle vs New England</div>
+        </header>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab(0)">$5 Board #1</div>
+            <div class="tab" onclick="switchTab(1)">$10 Board Set 1</div>
+            <div class="tab" onclick="switchTab(2)">$5 Board #2</div>
+            <div class="tab" onclick="switchTab(3)">$10 Board Set 2</div>
+        </div>
+
+        <div id="board0" class="tab-content active"></div>
+        <div id="board1" class="tab-content"></div>
+        <div id="board2" class="tab-content"></div>
+        <div id="board3" class="tab-content"></div>
+
+        <div class="instructions">
+            <h3>📋 How It Works</h3>
+            <p>
+                Payouts are made at the end of each quarter based on the <strong>last digit</strong> of each team's score.
+                Find where your name appears in the grid, then look at the numbers on the edges - those are your numbers for Seattle (top) and New England (left side).
+            </p>
+            <div class="example">
+                <strong>Example:</strong> If at the end of the 1st quarter Seattle leads 10 to 3, the winner would be 
+                the person who has <strong>0 for Seattle</strong> (last digit of 10) and <strong>3 for New England</strong> (last digit of 3).
+                Look at the grid to find where those numbers intersect - that square wins!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Board configurations
+        const boards = [
+            {
+                name: '$5 Board #1',
+                price: '$5.00',
+                payouts: { q1: '$25', q2: '$25', q3: '$25', final: '$50' },
+                topNumbers: [[8, 1], [9, 4], [7, 3], [6, 2], [5, 0]],
+                leftNumbers: [[9, 5], [2, 8], [6, 3], [0, 4], [1, 7]],
+                names: [
+                    ['Faith', 'Amy', 'Kyle Breitbarth', 'Kim', 'Wendy'],
+                    ['Jule', 'Tina', 'Shannon', 'Sherry', 'Kyle Benish'],
+                    ['Angie', 'Heather', 'Jeff V.', 'Dan', 'Courtney'],
+                    ['Mel', 'Tara B', 'Billie / Isaic', 'Brad', 'Tamara'],
+                    ['Matt M', 'Lyn', 'Holly', 'Angie', 'Lisa']
+                ]
+            },
+            {
+                name: '$10 Board Set 1',
+                price: '$10.00',
+                payouts: { q1: '$50', q2: '$50', q3: '$50', final: '$100' },
+                topNumbers: [[9, 1], [7, 2], [5, 0], [4, 8], [3, 6]],
+                leftNumbers: [[5, 6], [3, 1], [8, 4], [9, 0], [7, 2]],
+                names: [
+                    ['Lyn', 'Jamie', 'Jule', 'Amy', 'Holly'],
+                    ['Kyle Breitbarth', 'Billie / Isaic', 'Jeff V', 'Brad', 'Missy'],
+                    ['Kyle Benish', 'Amy', 'Deb L', 'Wendy', 'Angie'],
+                    ['Faith', 'Jody', 'Tina', 'Kim', 'Jeff V'],
+                    ['Lisa', 'Shannon', 'Dan', 'Tara B', 'Jamie']
+                ]
+            },
+            {
+                name: '$5 Board #2',
+                price: '$5.00',
+                payouts: { q1: '$25', q2: '$25', q3: '$25', final: '$50' },
+                topNumbers: [[1, 4], [8, 6], [5, 7], [3, 0], [9, 2]],
+                leftNumbers: [[9, 5], [2, 3], [6, 4], [8, 0], [7, 1]],
+                names: [
+                    ['Heather', 'Carla', 'Tara B', 'Jody', 'Angie'],
+                    ['Brad', 'Deb L', 'Lisa', 'Faith', 'Tina'],
+                    ['Wendy', 'Kim', 'Jule', 'Shannon', 'Billie / Isaic'],
+                    ['Deb S', 'Angie', 'Lyn', 'Kyle Breitbarth', 'Jeff V.'],
+                    ['Holly', 'Kyle Benish', 'Courtney', 'Missy', 'Sherry']
+                ]
+            },
+            {
+                name: '$10 Board Set 2',
+                price: '$10.00',
+                payouts: { q1: '$50', q2: '$50', q3: '$50', final: '$100' },
+                topNumbers: [[6, 9], [0, 8], [7, 4], [1, 5], [2, 3]],
+                leftNumbers: [[7, 6], [9, 2], [0, 8], [4, 1], [5, 3]],
+                names: [
+                    ['Deb L', 'Sherry', 'Jody', 'Matt M', 'Jamie'],
+                    ['Jule', 'Billie / Isaic', 'Amy', 'Dan', 'Wendy'],
+                    ['Lyn', 'Tara B', 'Mel', 'Kyle Benish', 'Tamara'],
+                    ['Kyle Breitbarth', 'Jeff V', 'Jamie', 'Faith', 'Deb S'],
+                    ['Tina', 'Angie', 'Carla', 'Courtney', 'Heather']
+                ]
+            }
+        ];
+
+        function generateBoard(boardIndex) {
+            const board = boards[boardIndex];
+            const container = document.getElementById(`board${boardIndex}`);
+            
+            let html = `
+                <div class="info-cards">
+                    <div class="info-card">
+                        <h3>Cost</h3>
+                        <div class="value">${board.price} per square</div>
+                    </div>
+                    <div class="info-card">
+                        <h3>Payouts</h3>
+                        <div class="payout-grid">
+                            <div class="payout-item"><span>1st Qtr</span><strong>${board.payouts.q1}</strong></div>
+                            <div class="payout-item"><span>2nd Qtr</span><strong>${board.payouts.q2}</strong></div>
+                            <div class="payout-item"><span>3rd Qtr</span><strong>${board.payouts.q3}</strong></div>
+                            <div class="payout-item"><span>Final</span><strong>${board.payouts.final}</strong></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid-wrapper">
+                    <div class="grid-scroll">
+                        <div class="grid-container">
+            `;
+            
+            // Corner and header
+            html += '<div class="grid-cell corner-cell">🏈</div>';
+            html += '<div class="grid-cell corner-cell"></div>';
+            html += '<div class="team-header-top">SEATTLE</div>';
+            
+            // Top numbers row
+            html += '<div class="grid-cell corner-cell"></div>';
+            html += '<div class="grid-cell corner-cell"></div>';
+            board.topNumbers.forEach(([n1, n2]) => {
+                html += `<div class="grid-cell number-cell-top"><span>${n1}</span><span>${n2}</span></div>`;
+            });
+            
+            // Grid rows
+            for (let row = 0; row < 5; row++) {
+                // Left team header (only first row)
+                if (row === 0) {
+                    html += '<div class="team-header-left">NEW ENGLAND</div>';
+                } else {
+                    html += '<div style="display:none"></div>';
+                }
+                
+                // Left numbers
+                const [ln1, ln2] = board.leftNumbers[row];
+                html += `<div class="grid-cell number-cell-left"><div>${ln1}</div><div>${ln2}</div></div>`;
+                
+                // Grid cells
+                for (let col = 0; col < 5; col++) {
+                    const name = board.names[row][col];
+                    html += `<div class="grid-cell">${name}</div>`;
+                }
+            }
+            
+            html += '</div></div></div>';
+            container.innerHTML = html;
+        }
+
+        function switchTab(index) {
+            // Update tabs
+            document.querySelectorAll('.tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+            
+            // Update content
+            document.querySelectorAll('.tab-content').forEach((content, i) => {
+                content.classList.toggle('active', i === index);
+            });
+        }
+
+        // Generate all boards on load
+        boards.forEach((_, index) => generateBoard(index));
+
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installPrompt').style.display = 'block';
+        });
+
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('App installed');
+                    }
+                    deferredPrompt = null;
+                    document.getElementById('installPrompt').style.display = 'none';
+                });
+            }
+        }
+
+        // Service worker registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swCode = `
+                    self.addEventListener('install', (e) => {
+                        e.waitUntil(
+                            caches.open('sb-squares-v8').then((cache) => {
+                                return cache.addAll(['/']);
+                            })
+                        );
+                    });
+
+                    self.addEventListener('fetch', (e) => {
+                        e.respondWith(
+                            caches.match(e.request).then((response) => {
+                                return response || fetch(e.request);
+                            })
+                        );
+                    });
+                `;
+                
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed'));
+            });
+        }
+
+        // iOS install instructions
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.navigator.standalone) {
+            const iosPrompt = document.createElement('div');
+            iosPrompt.className = 'install-prompt';
+            iosPrompt.style.display = 'block';
+            iosPrompt.innerHTML = `
+                <div>📱 To install on iOS:</div>
+                <div style="margin-top: 8px; font-size: 0.85rem;">
+                    Tap the Share button <span style="font-size: 1.2rem;">⎋</span> then "Add to Home Screen"
+                </div>
+            `;
+            document.querySelector('.container').insertBefore(iosPrompt, document.querySelector('header'));
+        }
+    </script>
+</body>
+</html>
